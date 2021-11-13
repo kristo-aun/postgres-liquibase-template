@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <!-- Base functions and tables -->
+    <changeSet id="1000-mystore-functions" author="baseline" runOnChange="true">
+        <sqlFile path="baseline/1000-functions.sql" relativeToChangelogFile="true" splitStatements="false"/>
+    </changeSet>
+
+    <changeSet id="1100-mystore-schema" author="baseline">
+        <sqlFile path="baseline/1100-schema.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <!-- Log functions and tables -->
+    <changeSet id="2000-mystore-log-schema" author="baseline">
+        <sqlFile path="baseline/2000-log-schema.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet id="2100-mystore-log-functions" author="baseline" runOnChange="true">
+        <sqlFile path="baseline/2100-log-functions.sql" relativeToChangelogFile="true" splitStatements="false"/>
+    </changeSet>
+
+    <!-- Incremental schema & data updates -->
+    <!--
+    <changeSet id="YYYYMMDD-XYZ-lorem-ipsum" author="MyName">
+        <sqlFile path="baseline/2021/YYYYMMDD-XYZ-lorem-ipsum.sql" relativeToChangelogFile="true" splitStatements="false"/>
+    </changeSet>
+    -->
+
+    <!-- To be run after all schema changes -->
+    <changeSet id="9000-mystore-log-triggers" author="baseline" runAlways="true">
+        <sqlFile path="baseline/9000-log-triggers.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="9100-mystore-audit-fields" author="baseline" runAlways="true">
+        <sqlFile path="baseline/9100-audit-fields.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet id="9200-mystore-audit-triggers" author="baseline" runAlways="true">
+        <sqlFile path="baseline/9200-audit-triggers.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet id="9900-mystore-user-grants" author="baseline" runAlways="true">
+        <sqlFile path="baseline/9900-grants.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+</databaseChangeLog>

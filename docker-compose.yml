@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  database:
+    image: postgres:13.3-alpine3.14
+    container_name: container-postgres
+    volumes:
+      - ./database/src/main/resources/dbinit:/docker-entrypoint-initdb.d/:ro
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: changeit
+      LANG: en_US.utf8
+    healthcheck:
+      test: pg_isready -U postgres
+  sleep:
+    image: busybox:latest
+    depends_on:
+      - database
+  liquibase:
+    image: liquibase/liquibase:4.5.0
+    container_name: container-liquibase
+    depends_on:
+      - sleep
+    volumes:
+      - ./database/src/main/resources/dbchangelog:/liquibase/changelog/database/src/main/resources/dbchangelog
+    command: >
+      --changeLogFile=database/src/main/resources/dbchangelog/master.xml
+      --url=jdbc:postgresql://database:5432/coredb
+      --liquibaseSchemaName=liquibase
+      --username=coredb_owner
+      --password=4HPyH4GEMo8cGtCFDJCVdv6HFNTfF49Z update

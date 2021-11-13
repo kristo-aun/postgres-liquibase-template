@@ -1,0 +1,27 @@
+apply plugin: 'java-library'
+apply plugin: 'liquibase'
+
+dependencies {
+    liquibaseRuntime "org.yaml:snakeyaml:${snakeyamlVersion}"
+    liquibaseRuntime "org.postgresql:postgresql:${postgresqlVersion}"
+    liquibaseRuntime "org.liquibase:liquibase-core:${liquibaseVersion}"
+}
+
+liquibase {
+    activities {
+        main {
+            changeLogFile "database/src/main/resources/dbchangelog/master.xml"
+            driver "org.postgresql.Driver"
+            logLevel "info"
+            url "${liquibaseUrl}"
+            username "${liquibaseUsername}"
+            password "${liquibasePassword}"
+            liquibaseSchemaName 'liquibase'
+            contexts "${liquibaseContexts}"
+        }
+    }
+}
+
+jar {
+    exclude("**/dbinit")
+}

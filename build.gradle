@@ -1,0 +1,35 @@
+defaultTasks "clean", "build"
+group "ee.francium.egd"
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:${gradleSonarqubeVersion}"
+        classpath "org.liquibase:liquibase-gradle-plugin:${project.gradleLiquibasePluginVersion}"
+        classpath "com.palantir.gradle.gitversion:gradle-git-version:${gradleGitPluginVersion}"
+    }
+}
+
+apply plugin: "com.palantir.git-version"
+def versionTxt = "v" + new Date().format('yyyyMMdd') + "-" + versionDetails().gitHash
+
+version(versionTxt)
+print "$name $version"
+
+allprojects {
+    apply plugin: "idea"
+    version = versionTxt
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+}
+
+subprojects {
+    version = getVersion()
+}

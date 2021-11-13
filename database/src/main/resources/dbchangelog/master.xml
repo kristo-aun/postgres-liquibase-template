@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <property name="constraint.fkdefer" value="SET CONSTRAINTS ALL DEFERRED;" dbms="postgresql"/>
+    <property name="constraint.fkimmediate" value="SET CONSTRAINTS ALL IMMEDIATE;" dbms="postgresql"/>
+
+    <property name="now" value="current_timestamp" dbms="postgresql"/>
+    <property name="floatType" value="float4" dbms="postgresql"/>
+    <property name="clobType" value="clob" dbms="postgresql"/>
+    <property name="uuidType" value="uuid" dbms="postgresql"/>
+    <property name="datetimeType" value="datetime" dbms="postgresql"/>
+
+    <include file="baseline.xml" relativeToChangelogFile="true"/>
+    <include file="setup-data.xml" relativeToChangelogFile="true"/>
+    <include file="test-data.xml" relativeToChangelogFile="true"/>
+
+</databaseChangeLog>

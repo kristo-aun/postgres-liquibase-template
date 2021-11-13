@@ -1,0 +1,33 @@
+-- pre-requisite for changelog
+
+CREATE USER coredb_owner WITH ENCRYPTED PASSWORD '4HPyH4GEMo8cGtCFDJCVdv6HFNTfF49Z';
+
+CREATE DATABASE coredb
+    OWNER coredb_owner
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'en_US.utf8'
+    LC_CTYPE = 'en_US.utf8'
+    TEMPLATE template0;
+
+CREATE USER egd_usr WITH ENCRYPTED PASSWORD 'Dc2SJrvcZvUGpQHUYku63k7pBS7JmA8c';
+GRANT CONNECT ON DATABASE coredb TO egd_usr;
+
+CREATE ROLE participant_support_ro NOLOGIN;
+CREATE ROLE participant_support_rw NOLOGIN;
+
+\c coredb
+CREATE SCHEMA IF NOT EXISTS mystore AUTHORIZATION coredb_owner;
+CREATE SCHEMA IF NOT EXISTS mgmtstore AUTHORIZATION coredb_owner;
+CREATE SCHEMA IF NOT EXISTS liquibase AUTHORIZATION coredb_owner;
+
+-- Audit log schemas
+CREATE SCHEMA IF NOT EXISTS mystore_log AUTHORIZATION coredb_owner;
+CREATE SCHEMA IF NOT EXISTS mgmtstore_log AUTHORIZATION coredb_owner;
+
+GRANT USAGE ON SCHEMA liquibase TO egd_usr;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA liquibase TO egd_usr;
+
+CREATE EXTENSION IF NOT EXISTS "pgcrypto" SCHEMA public;
+CREATE EXTENSION IF NOT EXISTS "hstore" SCHEMA public;
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp" SCHEMA public;
+CREATE EXTENSION IF NOT EXISTS "ltree" SCHEMA public;
